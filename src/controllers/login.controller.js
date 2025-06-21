@@ -12,13 +12,13 @@ const login = async (req, res) => {
 
     // Verificamos si el usuario existe
     if (!user) {
-      return res.status(400).json({ message: 'Usuario o contraseña incorrectos' });
+      return res.status(400).json({ success: false, message: 'Usuario o contraseña incorrectos' });
     }
 
     // Verificamos si la contraseña es correcta
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ message: 'Usuario o contraseña incorrectos' });
+      return res.status(400).json({ success: false, message: 'Usuario o contraseña incorrectos' });
     }
 
     // Creamos el JWT
@@ -33,6 +33,7 @@ const login = async (req, res) => {
 
     // Respondemos con el token
     res.json({
+      success: true,
       message: 'Login exitoso',
       token,
     });
